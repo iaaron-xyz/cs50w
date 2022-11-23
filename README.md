@@ -2,6 +2,7 @@
 This repository contains my solutions to the projects given in the course **CS50's Web Programming with Python and JavaScript** (2020-2023).
 
 Course website: https://cs50.harvard.edu/web/2020/
+edx homesite: https://www.edx.org/course/cs50s-web-programming-with-python-and-javascript
 ## Lectures
 ### Lecture 0: HTML, CSS
 - [ ] [Project 0](https://cs50.harvard.edu/web/2020/projects/0/search/): Design a front-end for Google Search, Google Images Search, and Google Advanced Search.
