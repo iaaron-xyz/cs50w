@@ -51,19 +51,24 @@ a {
     color: var(--color);
 }
 /* general search */
-.general-search {
+.general-search,
+.image-search {
     width: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.general-search input[type="text"] {
+.general-search input[type="text"],
+.image-search input[type="text"] {
     width: 100%;
     height: 40px;
     border-radius: 100px;
     margin-bottom: 30px;
+    padding: 0 20px;
+    font-size: 1.2rem;
 }
-.general-search input[type="submit"] {
+.general-search input[type="submit"],
+.image-search input[type="submit"] {
     background-color: var(--color-bg-submit-btn);
     color: var(--color);
     border: none;
