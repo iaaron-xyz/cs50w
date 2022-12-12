@@ -5,10 +5,6 @@
     --color-bg-submit-adv: #6f9be0;
 }
 
-/* * {
-    border: 1px solid red;
-} */
-
 body {
     background-color: var(--color-bg);
     color: var(--color); 
@@ -103,7 +99,7 @@ a {
 .advanced-search-logo {
     padding: 10px;
 }
-.advanced-search-logo > img {
+.advanced-search-logo > a > img {
     height: 30px;
 }
 .advanced-search {
