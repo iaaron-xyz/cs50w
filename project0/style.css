@@ -90,6 +90,9 @@ a {
     text-align: center;
     font-size: 0.9rem;
 }
+.btn-lucky {
+    margin-left: 10px;
+}
 /* advanced search styling */
 .advanced-search-content {
     margin-left: 50px;
