@@ -93,6 +93,9 @@ a {
 .advanced-search-content {
     margin-left: 50px;
 }
+.advanced-search-content h1 {
+    color: #f28b82;
+}
 .advanced-search-content .title-section-advanced {
     margin-bottom: 20px;
 }
