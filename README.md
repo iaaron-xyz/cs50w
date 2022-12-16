@@ -8,7 +8,11 @@ edx homesite: https://www.edx.org/course/cs50s-web-programming-with-python-and-j
 - [ ] [Project 0](https://cs50.harvard.edu/web/2020/projects/0/search/): Design a front-end for Google Search, Google Images Search, and Google Advanced Search.
 
 ### Lecture 1: Git
+- [ ] [Project 0](https://cs50.harvard.edu/web/2020/projects/0/search/): Design a front-end for Google Search, Google Images Search, and Google Advanced Search.
+
 ### Lecture 2: Python
+- [ ] [Project 0](https://cs50.harvard.edu/web/2020/projects/0/search/): Design a front-end for Google Search, Google Images Search, and Google Advanced Search.
+
 ### Lecture 3: Django
 ### Lecture 4: SQL, Models, and Migrations
 ### Lecture 5: JavaScript
@@ -18,4 +22,4 @@ edx homesite: https://www.edx.org/course/cs50s-web-programming-with-python-and-j
 ## Projects
 |Projects|Descirpion|Weeks|
 |---|---|---|
-|[Project 0: Search](https://cs50.harvard.edu/web/2020/projects/0/search/)|Design a front-end for Google Search, Google Images Search, and Google Advanced Search. |Week 0, Week 1|
+|[Project 0: Search](https://cs50.harvard.edu/web/2020/projects/0/search/)|Design a front-end for Google Search, Google Images Search, and Google Advanced Search. |Lecture 0: HTML, CSS, Lecture 1: Git, Lecture 2: Python|
