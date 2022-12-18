@@ -1,0 +1,20 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Search results for {{ searched_entry }}
+{% endblock %}
+
+{% block body %}
+<!-- list of entries that partially match -->
+{% if match %}
+        <h1>{{ num_entries }} similar search results found for: "{{ searched_entry }}"</h1>
+        <ul>
+            {% for entry in similar_entries %}
+                <li><a href="wiki/{{ entry }}">{{ entry }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Entries not found for <strong>{{ searched_entry }}</strong>.</p>
+    {% endif %}
+
+{% endblock %}
