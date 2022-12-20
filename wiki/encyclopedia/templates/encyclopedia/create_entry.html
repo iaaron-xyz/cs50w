@@ -1,0 +1,26 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Create New Page
+{% endblock %}
+
+{% block body %}
+    <h1>Create New Page</h1>
+
+    <form action="{% url 'encyclopedia:create' %}" method="POST">
+        {% csrf_token %}
+        <!-- title -->
+        <label for="new-entry-title">Title</label>
+        <br>
+        <input type="text" name="net" id="new-entry-title" placeholder="Entry title here">
+        <br>
+        <!-- content -->
+        <label for="new-entry-content">Content</label>
+        <br>
+        <textarea name="nec" id="new-entry-content" placeholder="Write your entry content here..."></textarea>
+        <br>
+        <!-- button -->
+        <input type="submit" name="submit" id="new-entry" value="Create new page">
+    </form>
+
+{% endblock %}

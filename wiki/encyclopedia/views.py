@@ -45,3 +45,17 @@ def search(request):
         "searched_entry": searched_entry,
         "match": False
     })
+
+def create(request):
+    if request.method == "POST":
+        print(f"Printing request: {request.POST}")
+        # If title already exist return error
+        if request.POST['net'].lower() in list(map(util.to_lower, util.list_entries())):
+            return render(request, "encyclopedia/error.html", {
+                'error_title': "Title already exist",
+            })
+        # Create and return the title
+        util.save_entry(request.POST['net'], request.POST['nec'])
+        return entry(request, request.POST['net'])
+
+    return render(request, "encyclopedia/create_entry.html")
