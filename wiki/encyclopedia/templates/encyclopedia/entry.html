@@ -7,7 +7,11 @@
 {% block body %}
     <!-- If the entry exist render it -->
     {% if entry_content %}
-        <h1>{{ title }}</h1>
+    <form action="{% url 'encyclopedia:edit' %}">
+        <input type="hidden" name="toedit" value="{{ title }}">
+        <input type="submit" value="Edit page content" class="btn">
+    </form>
+        <br>
         {{ entry_content }}
     <!-- Otherwise display that the content does not exist -->
     {% else %}

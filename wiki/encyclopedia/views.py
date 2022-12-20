@@ -48,7 +48,6 @@ def search(request):
 
 def create(request):
     if request.method == "POST":
-        print(f"Printing request: {request.POST}")
         # If title already exist return error
         if request.POST['net'].lower() in list(map(util.to_lower, util.list_entries())):
             return render(request, "encyclopedia/error.html", {
@@ -59,3 +58,27 @@ def create(request):
         return entry(request, request.POST['net'])
 
     return render(request, "encyclopedia/create_entry.html")
+
+def edit(request):
+    """
+    Edit and update existent pages.
+    """
+    if request.method == "POST":
+        # Enter the changed content
+        print(f"Post content: {request.POST}")
+        # Save the changes to disk
+        util.save_entry(request.POST['title'], request.POST['eec'])
+        # Render the updated page
+        return entry(request, request.POST['title'])
+
+    # Render the to-edit page
+    if request.GET['toedit'].lower() in list(map(util.to_lower, util.list_entries())):
+        return render(request, "encyclopedia/edit_entry.html", {
+            "entry_content": util.get_entry(request.GET['toedit']),
+            "title": request.GET['toedit']
+        })
+    # When title not found return error message
+    else:
+        return render(request, "encyclopedia/error.html", {
+            "error_title": "Something went wrong. The to-edit page not found :("
+        })
