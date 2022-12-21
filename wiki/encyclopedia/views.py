@@ -3,8 +3,11 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 import random
 
+from markdown2 import Markdown
+
 from . import util
 
+to_md = Markdown()
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -14,7 +17,7 @@ def index(request):
 def entry(request, title):
     return render(request, "encyclopedia/entry.html", {
         "title": title,
-        "entry_content": util.get_entry(title)
+        "entry_content": to_md.convert(util.get_entry(title))
     })
 
 def search(request):
