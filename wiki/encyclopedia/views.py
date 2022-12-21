@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+import random
 
 from . import util
 
@@ -82,3 +84,9 @@ def edit(request):
         return render(request, "encyclopedia/error.html", {
             "error_title": "Something went wrong. The to-edit page not found :("
         })
+
+def random_entry(request):
+    # choose and render randomly an entry
+    if request.method == "GET":
+        entry = random.choice(util.list_entries())
+        return HttpResponseRedirect(f"wiki/{entry}")
