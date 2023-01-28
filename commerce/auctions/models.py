@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 
 
 class User(AbstractUser):
@@ -17,6 +18,7 @@ class ListingObject(models.Model):
     details = models.CharField(max_length=500)
     status = models.CharField(max_length=100)
     image_url = models.URLField(max_length=300)
+    pub_date = models.DateTimeField('date published', default=timezone.now())
 
     def __str__(self) -> str:
         return f'{self.name}'
@@ -26,10 +28,15 @@ class Bid(models.Model):
     listing_obj = models.ForeignKey(ListingObject, on_delete=models.CASCADE, related_name="bid_obj")
     value = models.DecimalField(max_digits=11, decimal_places=2)
     is_current = models.BooleanField(default=False)
+    pub_date = models.DateTimeField('date posted', default=timezone.now())
+
+    def __str__(self) -> str:
+        return f'{self.listing_obj} : {self.value} : {self.is_current}'
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comment_user")
     listing_obj = models.ForeignKey(ListingObject, on_delete=models.CASCADE, related_name="comment_obj")
     comment_text = models.CharField(max_length=2000)
+    pub_date = models.DateTimeField('date commented', default=timezone.now())
 
 class whatchlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="watch_user")
