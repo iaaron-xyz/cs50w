@@ -3,5 +3,40 @@
 {% block body %}
     <h2>Active Listings</h2>
 
-    TODO
+    <div class="container">
+        {% for listing in listings %}
+        {% if listing.status == 'active' %}
+            <div class="row" style="margin-bottom: 20px;">
+                <div class="col-4">
+                    <img src="https://cdna.artstation.com/p/assets/images/images/025/574/080/large/alessandro-baldasseroni-2.jpg" height=300>
+                </div>
+                <div class="col">
+                    <h2>{{ listing.name }}</h2>
+                    <div>
+                        <p><strong>Description</strong></p>
+                        <p>{{ listing.details }}</p>
+                    </div>
+                    <div>
+                        <p><strong>Price</strong></p>
+                        {% comment %} Print current highest bid {% endcomment %}
+                        {% for bid in bids %}
+                            {% if bid.is_current == True and bid.listing_obj.id == listing.id %}
+                                <p>$ {{ bid.value }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div>
+                        <p>By <strong>{{ listing.user }}</strong></p>
+                    </div>
+                    <div>
+                        <p>Created: {{ listing.pub_date }}</p>
+                    </div>
+                    <div>
+                        <p>Category: {{ listing.category }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% endfor %}
+    </div>
 {% endblock %}

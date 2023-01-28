@@ -8,7 +8,14 @@ from .models import User, Category, ListingObject, Bid
 
 
 def index(request):
-    return render(request, "auctions/index.html")
+    # Get available listing and bids
+    listings = ListingObject.objects.all()
+    bids = Bid.objects.all()
+    
+    return render(request, "auctions/index.html", {
+        'listings': listings,
+        'bids': bids
+    })
 
 
 def login_view(request):
@@ -101,7 +108,7 @@ def add_new(request):
         )
         # Save current bid to database
         bid.save()
-
+        # Redirect to index after process to database
         return HttpResponseRedirect(reverse("index"))
     
     else:
