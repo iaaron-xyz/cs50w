@@ -5,12 +5,13 @@ from django.utils import timezone
 
 class User(AbstractUser):
     pass
+
 class Category(models.Model):
     category = models.CharField(max_length=64)
 
     def __str__(self) -> str:
         return f'{self.category}'
-        
+
 class ListingObject(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="obj_user")
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, related_name="categories")
@@ -32,12 +33,19 @@ class Bid(models.Model):
 
     def __str__(self) -> str:
         return f'{self.listing_obj} : {self.value} : {self.is_current}'
+
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comment_user")
     listing_obj = models.ForeignKey(ListingObject, on_delete=models.CASCADE, related_name="comment_obj")
     comment_text = models.CharField(max_length=2000)
     pub_date = models.DateTimeField('date commented', default=timezone.now())
 
+    def __str__(self) -> str:
+        return f'{self.id}: {self.comment_text}'
+
 class whatchlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="watch_user")
     listing_obj = models.ForeignKey(ListingObject, on_delete=models.CASCADE, related_name="watch_obj")
+
+    def __str__(self) -> str:
+        return f'[user_id: {self.user}; object_id: {self.listing_obj}'
