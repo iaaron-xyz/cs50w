@@ -4,25 +4,43 @@
     <h2>New Listing Object</h2>
 
     <div class="container">
-        <form>
+        <form action="{% url 'add_new' %}" method="post">
             {% csrf_token %}
-            <div class="form-group">
-                <input class="form-control" type="text" name="listing-title" placeholder="Listing Title">
+            {% comment %} Title {% endcomment %}
+            <div class="form-group col-md-6">
+                <input class="form-control" type="text" name="listing-title" placeholder="Listing Title" value="My Title" required>
             </div>
-            <div class="form-group input-group">
+            {% comment %} Description {% endcomment %}
+            <div class="form-group input-group col-md-6">
                 <label class="input-group-text">Description</label>
                 <textarea class="form-control" name="listing-description" placeholder="Listing Title" arial-label="arial label">Description.</textarea>
             </div>
-            <div class="form-group input-group xl-3">
+            {% comment %} Price {% endcomment %}
+            <div class="form-group input-group col-sm-3">
                 <span class="input-group-text">$</span>
-                <input type="text" class="form-control" name="listing-initial-bid" aria-label="Amount (to the nearest dollar)">
-                <span class="input-group-text">.00</span>
+                <input type="text" class="form-control" name="listing-initial-bid" aria-label="Amount (to the nearest dollar)" required>
+                <span class="input-group-text" value="80">.00</span>
             </div>
-            <div class="form-group">
-                <select class="form-control" name="select=category">
-                    <option value="category1">Category 1</option>
-                    <option value="category2">Category 2</option>
+            {% comment %} Category options {% endcomment %}
+            <div class="form-group col-md-6">
+                <select class="form-control" name="category-list">
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.category }}</option>
+                    {% empty %}
+                        <option value="no-category"></option>
+                    {% endfor %}
                 </select>
+            </div>
+            {% comment %} listing Status {% endcomment %}
+            <div class="form-group col-md-6">
+                <select class="form-control" name="status" required>
+                    <option value="active">Active</option>
+                    <option value="draft">Draft</option>
+                </select>
+            </div>
+            {% comment %} Submit BTN {% endcomment %}
+            <div>
+                <button class="btn btn-primary" type="submit" value="new-listing">Add New Listing Object</button>
             </div>
         </form>
     <div class="container">

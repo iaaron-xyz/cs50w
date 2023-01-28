@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import User, Category, ListingObject, Bid
 
 
 def index(request):
@@ -62,5 +62,47 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
-def new_object(request):
-    return render(request, "auctions/create.html")
+def new_listing(request):
+    # get all available categories
+    categories = Category.objects.all()
+    return render(request, "auctions/create.html", {
+        'categories': categories
+    })
+
+def add_new(request):
+    # Save new listing info
+    if request.method == "POST":
+        # Get the form data
+        name = request.POST["listing-title"]
+        details = request.POST["listing-description"]
+        price = request.POST["listing-initial-bid"]
+        status = request.POST["status"]
+
+        # Generate instances to reference as foregin key values
+        current_user = User.objects.get(pk=request.user.pk)
+        current_category = Category.objects.get(pk=request.POST["category-list"])
+
+        # Create a new listing object
+        listing_object = ListingObject(
+            name=name,
+            category=current_category, # Reference an instance not a number/string
+            user=current_user, # Reference an instance not a number/string
+            details=details,
+            status=status)
+        # save current listing to database
+        listing_object.save()
+
+        # Create bid new row
+        bid = Bid(
+            user=current_user, # Reference an instance not a number/string
+            listing_obj=listing_object, # Reference an instance not a number/string
+            value=price,
+            is_current=True
+        )
+        # Save current bid to database
+        bid.save()
+
+        return HttpResponseRedirect(reverse("index"))
+    
+    else:
+        return HttpResponseRedirect(reverse("new_listing"))
