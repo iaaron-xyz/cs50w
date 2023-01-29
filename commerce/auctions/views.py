@@ -113,3 +113,11 @@ def add_new(request):
     
     else:
         return HttpResponseRedirect(reverse("new_listing"))
+
+def listing_page(request, listing_id):
+    # Get the info of the current listing object
+    listing_current = ListingObject.objects.get(pk=listing_id)
+    # Render the page with tue current listing info
+    return render(request, "auctions/listing_page.html", {
+        'listing_current': listing_current
+    })

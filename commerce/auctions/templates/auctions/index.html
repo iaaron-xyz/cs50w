@@ -8,14 +8,22 @@
         {% if listing.status == 'active' %}
             <div class="row" style="margin-bottom: 20px;">
                 <div class="col-4">
-                    <img src="https://cdna.artstation.com/p/assets/images/images/025/574/080/large/alessandro-baldasseroni-2.jpg" height=300>
+                    <a href="{% url 'listing_page' listing.id %}">
+                        <img src="https://cdna.artstation.com/p/assets/images/images/025/574/080/large/alessandro-baldasseroni-2.jpg" height=300>
+                    </a>
                 </div>
                 <div class="col">
-                    <h2>{{ listing.name }}</h2>
+
+                    {% comment %} Title {% endcomment %}
+                    <h2><a href="{% url 'listing_page' listing.id %}">{{ listing.name }}</a></h2>
+                    
+                    {% comment %} Description {% endcomment %}
                     <div>
                         <p><strong>Description</strong></p>
                         <p>{{ listing.details }}</p>
                     </div>
+                    
+                    {% comment %} Price {% endcomment %}
                     <div>
                         <p><strong>Price</strong></p>
                         {% comment %} Print current highest bid {% endcomment %}
@@ -25,12 +33,18 @@
                             {% endif %}
                         {% endfor %}
                     </div>
+
+                    {% comment %} User owner {% endcomment %}
                     <div>
                         <p>By <strong>{{ listing.user }}</strong></p>
                     </div>
+
+                    {% comment %} Publication date {% endcomment %}
                     <div>
                         <p>Created: {{ listing.pub_date }}</p>
                     </div>
+
+                    {% comment %} Listing category {% endcomment %}
                     <div>
                         <p>Category: {{ listing.category }}</p>
                     </div>
