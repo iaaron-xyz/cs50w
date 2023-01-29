@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from .models import User, Category, ListingObject, Bid
 
@@ -114,6 +115,7 @@ def add_new(request):
     else:
         return HttpResponseRedirect(reverse("new_listing"))
 
+@login_required(login_url='login')
 def listing_page(request, listing_id):
     # Get the info of the current listing object
     listing_current = get_object_or_404(ListingObject, pk=listing_id)
