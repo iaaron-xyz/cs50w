@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
 from .models import User, Category, ListingObject, Bid
@@ -116,8 +116,15 @@ def add_new(request):
 
 def listing_page(request, listing_id):
     # Get the info of the current listing object
-    listing_current = ListingObject.objects.get(pk=listing_id)
+    listing_current = get_object_or_404(ListingObject, pk=listing_id)
+    
+    # Just active listings can have a listing page
+    is_active = True
+    if listing_current.status != 'active' or  not listing_current:
+        is_active = False
+
     # Render the page with tue current listing info
     return render(request, "auctions/listing_page.html", {
-        'listing_current': listing_current
+        'listing_current': listing_current,
+        'is_active': is_active
     })
