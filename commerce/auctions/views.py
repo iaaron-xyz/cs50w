@@ -144,3 +144,46 @@ def listing_page(request, listing_id):
         'current_bid': current_bid,
         'is_active': is_active
     })
+
+@login_required(login_url='login')
+def place_bid(request, owner_id, listing_id):
+    if request.method == "POST":
+        bid_proposal = request.POST['bid']
+
+        # Get current listing object
+        listing_current = get_object_or_404(ListingObject, pk=listing_id)
+        user_bid = User.objects.get(pk=request.user.pk)
+        
+        # find all bids made to that listing before
+        listing_bids = list(Bid.objects.filter(listing_obj=listing_current))
+        print(listing_bids)
+
+        # check if current bid is higher than all the others
+        for bid in listing_bids:
+            if not bid.value or bid.value >= float(bid_proposal):
+                print("Your bid is NOT enough!")
+                return HttpResponseRedirect(reverse('listing_page', args=(listing_id,)))
+
+        # check that bidder and owner are different users
+        if request.user.pk == owner_id:
+            print("Bidder and Owner cannot be the same person.")
+            return HttpResponseRedirect(reverse('listing_page', args=(listing_id,)))
+
+        # set all the previous is_current bids to false
+        for bid in listing_bids:
+            bid.is_current = False
+            bid.save()
+
+        # add a new bid with the new info and set to true
+        new_bid = Bid(
+            user=user_bid,
+            listing_obj=listing_current,
+            value=bid_proposal,
+            is_current=True
+        )
+        new_bid.save()
+        
+        # render the listing page with the new info
+        return HttpResponseRedirect(reverse('listing_page', args=(listing_id,)))
+    
+    return HttpResponseRedirect(reverse('index'))

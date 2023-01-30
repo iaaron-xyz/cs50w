@@ -32,7 +32,7 @@ class Bid(models.Model):
     pub_date = models.DateTimeField('date posted', default=timezone.now())
 
     def __str__(self) -> str:
-        return f'{self.listing_obj} : {self.value} : {self.is_current}'
+        return f'{self.user} : {self.listing_obj} : {self.value} : {self.is_current}'
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comment_user")
