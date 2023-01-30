@@ -119,6 +119,15 @@ def add_new(request):
 def listing_page(request, listing_id):
     # Get the info of the current listing object
     listing_current = get_object_or_404(ListingObject, pk=listing_id)
+    listing_bids = list(Bid.objects.filter(listing_obj=listing_current))
+
+    # number of bids
+    number_bids = len(listing_bids)
+    # get the current bid
+    for bid in listing_bids:
+        if bid.is_current:
+            current_bid = bid
+            break
     
     # Just active listings can have a listing page
     is_active = True
@@ -128,5 +137,8 @@ def listing_page(request, listing_id):
     # Render the page with tue current listing info
     return render(request, "auctions/listing_page.html", {
         'listing_current': listing_current,
+        'listing_bids': listing_bids,
+        'number_bids': number_bids,
+        'current_bid': current_bid,
         'is_active': is_active
     })

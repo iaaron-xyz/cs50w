@@ -2,7 +2,43 @@
 
 {% block body %}
     {% if is_active %}
-        <h1>{{ listing_current.name }}</h1>
+        <h1>Listing: {{ listing_current.name }}</h1>
+
+        {% comment %} Listing image {% endcomment %}
+        <div>
+            <img src="https://m.media-amazon.com/images/I/91VjWQQppqL.jpg" height=400>
+        </div>
+        {% comment %} Listing Description {% endcomment %}
+        <div>
+            <p>Details: {{ listing_current.details }}</p>
+        </div>
+
+        {% comment %} Listing Bids {% endcomment %}
+        <div>
+            <h3>Current Bid: ${{ current_bid.value }}</h3>
+            {% if number_bids > 1 %}
+                <p>{{ number_bids }} bids so far. Place your bid below.</p>
+            {% else %}
+                <p>This is the initial bid. Place your bid below.</p>
+            {% endif %}
+            <form>
+                <input type="number" name="bid" step="0.01" min="1">
+                <input type="submit" value="Place Bid" class="btn-primary">
+            </form>
+        </div>
+
+        {% comment %} Listing Extra details (owner, category, etc) {% endcomment %}
+        <div>
+            <h3>Details: </h3>
+            <ul>
+                <li>
+                    Listed by: <a href="">{{ listing_current.user.username }}</a>
+                </li>
+                <li>
+                    Category: <a href=""> {{ listing_current.category }} </a>
+                </li>
+            </ul>
+        </div>
     {% else %}
         <h1>Not Active Listing</h1>
     {% endif %}
