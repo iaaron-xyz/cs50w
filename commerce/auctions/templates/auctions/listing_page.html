@@ -4,6 +4,22 @@
     {% if is_active %}
         <h1>Listing: {{ listing_current.name }}</h1>
 
+        {% comment %} Feedback messages {% endcomment %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                        <div class="container-fluid p-0">
+                            <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="True">&times;</span>
+                            </button>
+                            {{ message | safe }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
         {% comment %} Listing image {% endcomment %}
         <div>
             {% if listing_current.image_url %}

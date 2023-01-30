@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from .models import User, Category, ListingObject, Bid
 
@@ -161,12 +162,12 @@ def place_bid(request, owner_id, listing_id):
         # check if current bid is higher than all the others
         for bid in listing_bids:
             if not bid.value or bid.value >= float(bid_proposal):
-                print("Your bid is NOT enough!")
+                messages.error(request, "You need a <strong>higher bid price</strong>.")
                 return HttpResponseRedirect(reverse('listing_page', args=(listing_id,)))
 
         # check that bidder and owner are different users
         if request.user.pk == owner_id:
-            print("Bidder and Owner cannot be the same person.")
+            messages.error(request, "You <strong>can't</strong> bid on <strong>your own</strong> listings.")
             return HttpResponseRedirect(reverse('listing_page', args=(listing_id,)))
 
         # set all the previous is_current bids to false
@@ -184,6 +185,7 @@ def place_bid(request, owner_id, listing_id):
         new_bid.save()
         
         # render the listing page with the new info
+        messages.success(request, "Your bid was submitted correctly!")
         return HttpResponseRedirect(reverse('listing_page', args=(listing_id,)))
     
     return HttpResponseRedirect(reverse('index'))
