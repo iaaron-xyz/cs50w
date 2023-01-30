@@ -6,7 +6,11 @@
 
         {% comment %} Listing image {% endcomment %}
         <div>
-            <img src="https://m.media-amazon.com/images/I/91VjWQQppqL.jpg" height=400>
+            {% if listing_current.image_url %}
+                <img src="{{ listing_current.image_url }}">
+            {% else %}
+                <img src="https://m.media-amazon.com/images/I/91VjWQQppqL.jpg" height=400>
+            {% endif %}
         </div>
         {% comment %} Listing Description {% endcomment %}
         <div>

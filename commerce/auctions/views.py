@@ -85,6 +85,7 @@ def add_new(request):
         details = request.POST["listing-description"]
         price = request.POST["listing-initial-bid"]
         status = request.POST["status"]
+        image_url = request.POST["listing-image"]
 
         # Generate instances to reference as foregin key values
         current_user = User.objects.get(pk=request.user.pk)
@@ -96,6 +97,7 @@ def add_new(request):
             category=current_category, # Reference an instance not a number/string
             user=current_user, # Reference an instance not a number/string
             details=details,
+            image_url=image_url,
             status=status)
         # save current listing to database
         listing_object.save()

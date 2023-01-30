@@ -9,7 +9,11 @@
             <div class="row" style="margin-bottom: 20px;">
                 <div class="col-4">
                     <a href="{% url 'listing_page' listing.id %}">
-                        <img src="https://cdna.artstation.com/p/assets/images/images/025/574/080/large/alessandro-baldasseroni-2.jpg" height=300>
+                        {% if listing.image_url %}
+                            <img src="{{ listing.image_url }}" height=300 width=300>
+                        {% else %}
+                            <img src="https://cdna.artstation.com/p/assets/images/images/011/722/048/large/borislav-kechashki-gopgap-post.jpg" height=300>
+                        {% endif %}
                     </a>
                 </div>
                 <div class="col">
