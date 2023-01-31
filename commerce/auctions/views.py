@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .models import User, Category, ListingObject, Bid
+from .models import User, Category, ListingObject, Bid, Comment,Whatchlist
 
 
 def index(request):
@@ -189,3 +189,23 @@ def place_bid(request, owner_id, listing_id):
         return HttpResponseRedirect(reverse('listing_page', args=(listing_id,)))
     
     return HttpResponseRedirect(reverse('index'))
+
+def add_watchlist(request, listing_id):
+    if request.method == "POST":
+        print(request.user.pk)
+        print(listing_id)
+
+        # Get current listing and user objects
+        listing_current = get_object_or_404(ListingObject, pk=listing_id)
+        user_current = get_object_or_404(User, pk=request.user.pk)
+
+        # Create a new watchlist object and assign current objects
+        watchlist_new=Whatchlist(
+            user=user_current,
+            listing_obj=listing_current
+        )
+        # save the new wathclist object
+        watchlist_new.save()
+
+
+        return HttpResponseRedirect(reverse('listing_page', args=(listing_id,)))

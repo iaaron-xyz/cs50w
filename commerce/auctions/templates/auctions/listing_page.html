@@ -61,7 +61,13 @@
                         Category: <a href=""> {{ listing_current.category }} </a>
                     </li>
                 </ul>
+                {% comment %} Add to/ Remove from Watchlist {% endcomment %}
+                <form action="{% url 'add_watchlist' listing_current.id %}" method="post" "class="text-center">
+                    {% csrf_token %}
+                    <input type="submit" href="{% url 'add_watchlist' listing_current.id %}" class="btn btn-outline-info" value="Add to watchlist +">
+                </form>
             </div>
+
         </div>
     {% else %}
         <h1>Not Active Listing</h1>
