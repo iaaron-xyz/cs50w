@@ -43,7 +43,7 @@ class Comment(models.Model):
     def __str__(self) -> str:
         return f'{self.id}: {self.comment_text}'
 
-class whatchlist(models.Model):
+class Whatchlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="watch_user")
     listing_obj = models.ForeignKey(ListingObject, on_delete=models.CASCADE, related_name="watch_obj")
 
