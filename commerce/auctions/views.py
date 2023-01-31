@@ -13,10 +13,14 @@ def index(request):
     # Get available listing and bids
     listings = ListingObject.objects.all()
     bids = Bid.objects.all()
+
+    # number watchlist elements
+    nwe = len(Whatchlist.objects.filter(user=request.user.pk))
     
     return render(request, "auctions/index.html", {
         'listings': listings,
-        'bids': bids
+        'bids': bids,
+        'nwe': nwe
     })
 
 
@@ -75,8 +79,13 @@ def register(request):
 def new_listing(request):
     # get all available categories
     categories = Category.objects.all()
+
+    # number watchlist elements
+    nwe = len(Whatchlist.objects.filter(user=request.user.pk))
+
     return render(request, "auctions/create.html", {
-        'categories': categories
+        'categories': categories,
+        'nwe': nwe
     })
 
 @login_required(login_url='login')
@@ -147,6 +156,9 @@ def listing_page(request, listing_id):
         if e.listing_obj.id == listing_id:
             in_watchlist = True
             break
+    
+    # number of watchlist elements
+    nwe = len(Whatchlist.objects.filter(user=request.user.pk))
 
     # Render the page with tue current listing info
     return render(request, "auctions/listing_page.html", {
@@ -155,7 +167,8 @@ def listing_page(request, listing_id):
         'number_bids': number_bids,
         'current_bid': current_bid,
         'is_active': is_active,
-        'in_watchlist': in_watchlist
+        'in_watchlist': in_watchlist,
+        'nwe': nwe
     })
 
 @login_required(login_url='login')
@@ -224,9 +237,14 @@ def add_watchlist(request, listing_id):
 def watchlist(request):
     # get watchlist objects of current user
     user_watchlist_objects = list(Whatchlist.objects.filter(user=request.user.pk))
+
+    # number of watchlist elements
+    nwe = len(Whatchlist.objects.filter(user=request.user.pk))
+
     # render watchlist view
     return render(request, "auctions/watchlist.html", {
-        "user_watchlist_objects": user_watchlist_objects
+        "user_watchlist_objects": user_watchlist_objects,
+        'nwe': nwe
     })
 
 @login_required(login_url='login')
