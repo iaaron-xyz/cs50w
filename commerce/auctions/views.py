@@ -209,3 +209,12 @@ def add_watchlist(request, listing_id):
 
 
         return HttpResponseRedirect(reverse('listing_page', args=(listing_id,)))
+
+def watchlist(request):
+    # get watchlist objects of current user
+    user_watchlist_objects = list(Whatchlist.objects.filter(user=request.user.pk))
+    print(user_watchlist_objects)
+    # render watchlist view
+    return render(request, "auctions/watchlist.html", {
+        "user_watchlist_objects": user_watchlist_objects
+    })

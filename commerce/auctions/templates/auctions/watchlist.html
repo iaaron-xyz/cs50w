@@ -1,0 +1,26 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h1 class="text-center section-title">
+        Watchlist
+    </h1>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3">
+    {% for object in user_watchlist_objects %}
+        <div class="col mb-4">
+            <div class="card">
+                <img src="{{ object.listing_obj.image_url }}" class="card-img-top img-fluid">
+                <div class="card-body">
+                    <h5 class="card-title">{{ object.listing_obj.name }}</h5>
+                    <p class="card-text">{{ object.listing_obj.details }}</p>
+                    <p><strong>Status: </strong>{{ object.listing_obj.status }}</p>
+                    <p><strong>Category: </strong><span class="badge badge-dark">{{ object.listing_obj.category }}</span></p>
+                    <p>Publication date: {{ object.listing_obj.pub_date }}</p>
+                    <a href="{% url 'listing_page' object.listing_obj.id %}" class="btn btn-primary">Details</a>
+                    <a href="#" class="btn btn-danger">Watchlist Remove</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
