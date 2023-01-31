@@ -1,35 +1,35 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
+    <h2 class="section-title">Active Listings</h2>
 
     <div class="container">
         {% for listing in listings %}
         {% if listing.status == 'active' %}
-            <div class="row" style="margin-bottom: 20px;">
-                <div class="col-4">
+            <div class="row listing-card" style="margin-bottom: 20px;">
+                <div class="col-xl-4 col-md-6 col-12 d-flex align-items-center justify-content-start">
                     <a href="{% url 'listing_page' listing.id %}">
                         {% if listing.image_url %}
-                            <img src="{{ listing.image_url }}" height=300 width=300>
+                            <img src="{{ listing.image_url }}" class="img-fluid">
                         {% else %}
-                            <img src="https://cdna.artstation.com/p/assets/images/images/011/722/048/large/borislav-kechashki-gopgap-post.jpg" height=300>
+                            <img src="https://cdna.artstation.com/p/assets/images/images/011/722/048/large/borislav-kechashki-gopgap-post.jpg" class="img-fluid">
                         {% endif %}
                     </a>
                 </div>
-                <div class="col">
+                <div class="col-xl-8 col-md-6 col-12">
 
                     {% comment %} Title {% endcomment %}
                     <h2><a href="{% url 'listing_page' listing.id %}">{{ listing.name }}</a></h2>
                     
                     {% comment %} Description {% endcomment %}
                     <div>
-                        <p><strong>Description</strong></p>
+                        <p class="listing-card-info-field"><strong>Description</strong></p>
                         <p>{{ listing.details }}</p>
                     </div>
                     
                     {% comment %} Price {% endcomment %}
                     <div>
-                        <p><strong>Price</strong></p>
+                        <p class="listing-card-info-field"><strong>Current bid:</strong></p>
                         {% comment %} Print current highest bid {% endcomment %}
                         {% for bid in bids %}
                             {% if bid.is_current == True and bid.listing_obj.id == listing.id %}

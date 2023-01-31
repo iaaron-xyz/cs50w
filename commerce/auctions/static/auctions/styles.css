@@ -13,3 +13,29 @@ body {
     margin-left: 10px;
     border-radius: 100%;
 }
+.section-title {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.listing-card {
+    border: 1px solid grey;
+    border-radius: 20px;
+    padding: 15px;
+}
+.listing-card-info-field {
+    margin: 0;
+}
+.listing-info {
+    background-color: rgb(240, 240, 240);
+    margin: 20px;
+    padding: 20px;
+    border-radius: 20px;
+}
+.listing-description,
+.listing-bid h3,
+.listing-bid form {
+    margin: 20px 0;
+}
+.listing-bid form input[type="submit"] {
+    margin-left: 10px;
+}
