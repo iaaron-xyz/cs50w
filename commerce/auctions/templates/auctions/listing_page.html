@@ -20,6 +20,13 @@
             </ul>
         {% endif %}
 
+        {% comment %} In watchlist tag {% endcomment %}
+        {%if in_watchlist %}
+        <div class="text-center section-title">
+            <span class="badge badge-info">In watchlist</span>
+        </div>
+        {% endif %}
+
         {% comment %} Listing image {% endcomment %}
         <div class=" row d-flex align-items-center justify-content-center">
             {% if listing_current.image_url %}
@@ -62,10 +69,17 @@
                     </li>
                 </ul>
                 {% comment %} Add to/ Remove from Watchlist {% endcomment %}
-                <form action="{% url 'add_watchlist' listing_current.id %}" method="post" "class="text-center">
-                    {% csrf_token %}
-                    <input type="submit" href="{% url 'add_watchlist' listing_current.id %}" class="btn btn-outline-info" value="Add to watchlist +">
-                </form>
+                {% if in_watchlist %}
+                    <form action="{% url 'remove_watchlist' listing_current.id %}" method="post" "class="text-center">
+                        {% csrf_token %}
+                        <input type="submit" href="{% url 'add_watchlist' listing_current.id %}" class="btn btn-outline-danger" value="Remove from Watchlist">
+                    </form>
+                {% else %}
+                    <form action="{% url 'add_watchlist' listing_current.id %}" method="post" "class="text-center">
+                        {% csrf_token %}
+                        <input type="submit" href="{% url 'add_watchlist' listing_current.id %}" class="btn btn-outline-info" value="Add to watchlist +">
+                    </form>
+                {% endif %}
             </div>
 
         </div>

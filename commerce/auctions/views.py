@@ -71,6 +71,7 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
+@login_required(login_url='login')
 def new_listing(request):
     # get all available categories
     categories = Category.objects.all()
@@ -78,6 +79,7 @@ def new_listing(request):
         'categories': categories
     })
 
+@login_required(login_url='login')
 def add_new(request):
     # Save new listing info
     if request.method == "POST":
@@ -137,13 +139,23 @@ def listing_page(request, listing_id):
     if listing_current.status != 'active' or  not listing_current:
         is_active = False
 
+    # Get watchlist info
+    watchlist_list = list(Whatchlist.objects.filter(user=request.user.pk))
+    # Check if current listing object was added to watchlist
+    in_watchlist = False
+    for e in watchlist_list:
+        if e.listing_obj.id == listing_id:
+            in_watchlist = True
+            break
+
     # Render the page with tue current listing info
     return render(request, "auctions/listing_page.html", {
         'listing_current': listing_current,
         'listing_bids': listing_bids,
         'number_bids': number_bids,
         'current_bid': current_bid,
-        'is_active': is_active
+        'is_active': is_active,
+        'in_watchlist': in_watchlist
     })
 
 @login_required(login_url='login')
@@ -190,11 +202,9 @@ def place_bid(request, owner_id, listing_id):
     
     return HttpResponseRedirect(reverse('index'))
 
+@login_required(login_url='login')
 def add_watchlist(request, listing_id):
     if request.method == "POST":
-        print(request.user.pk)
-        print(listing_id)
-
         # Get current listing and user objects
         listing_current = get_object_or_404(ListingObject, pk=listing_id)
         user_current = get_object_or_404(User, pk=request.user.pk)
@@ -210,11 +220,24 @@ def add_watchlist(request, listing_id):
 
         return HttpResponseRedirect(reverse('listing_page', args=(listing_id,)))
 
+@login_required(login_url='login')
 def watchlist(request):
     # get watchlist objects of current user
     user_watchlist_objects = list(Whatchlist.objects.filter(user=request.user.pk))
-    print(user_watchlist_objects)
     # render watchlist view
     return render(request, "auctions/watchlist.html", {
         "user_watchlist_objects": user_watchlist_objects
     })
+
+@login_required(login_url='login')
+def remove_watchlist(request, listing_id):
+    if request.method == "POST":
+        # get watchlist objects related to the current user
+        watchlist_user_objects = Whatchlist.objects.filter(user=request.user.pk)
+        # remove from DB listing_id object
+        print(watchlist_user_objects)
+        for obj in watchlist_user_objects:
+            if obj.listing_obj.id == listing_id:
+                obj.delete()
+        
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
