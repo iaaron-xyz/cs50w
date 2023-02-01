@@ -162,10 +162,8 @@ def listing_page(request, listing_id):
     
     # Get if current user is equal to owner listing page
     owner_equal_user = request.user.pk == listing_current.user.id
-
     # number of watchlist elements
     nwe = len(Whatchlist.objects.filter(user=request.user.pk))
-
     # Current user in session
     current_user = request.user.pk
 
@@ -279,3 +277,20 @@ def remove_watchlist(request, listing_id):
                 obj.delete()
         
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+@login_required(login_url='login')
+def add_comment(request, listing_id):
+    if request.method == "POST":
+        # get objects
+        listing_current = get_object_or_404(ListingObject, pk=listing_id)
+        user_current = get_object_or_404(User, pk=request.user.pk)
+
+        # Create new comment
+        comment = Comment(
+            user=user_current,
+            listing_obj=listing_current,
+            comment_text=request.POST['comment']
+        )
+        comment.save()
+
+        return HttpResponseRedirect(reverse('listing_page', args=(listing_id,)))
