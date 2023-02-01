@@ -143,10 +143,13 @@ def listing_page(request, listing_id):
             current_bid = bid
             break
     
-    # Just active listings can have a listing page
-    is_active = True
-    if listing_current.status != 'active' or  not listing_current:
-        is_active = False
+    # Current status of the listing
+    if listing_current.status == 'active':
+        listing_status = 'active'
+    elif listing_current.status == 'closed':
+        listing_status = 'closed'
+    else:
+        listing_status = ''
 
     # Get watchlist info
     watchlist_list = list(Whatchlist.objects.filter(user=request.user.pk))
@@ -158,10 +161,13 @@ def listing_page(request, listing_id):
             break
     
     # Get if current user is equal to owner listing page
-    owner_equal_bidder = request.user.pk == listing_current.user.id
+    owner_equal_user = request.user.pk == listing_current.user.id
 
     # number of watchlist elements
     nwe = len(Whatchlist.objects.filter(user=request.user.pk))
+
+    # Current user in session
+    current_user = request.user.pk
 
     # Render the page with tue current listing info
     return render(request, "auctions/listing_page.html", {
@@ -169,8 +175,9 @@ def listing_page(request, listing_id):
         'listing_bids': listing_bids,
         'number_bids': number_bids,
         'current_bid': current_bid,
-        'is_active': is_active,
-        'owner_equal_bidder': owner_equal_bidder,
+        'listing_status': listing_status,
+        'owner_equal_user': owner_equal_user,
+        'current_user': current_user,
         'in_watchlist': in_watchlist,
         'nwe': nwe
     })
