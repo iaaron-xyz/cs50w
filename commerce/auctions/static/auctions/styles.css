@@ -39,3 +39,7 @@ body {
 .listing-bid form input[type="submit"] {
     margin-left: 10px;
 }
+.comment {
+    background: whitesmoke;
+    margin: 10px 0;
+}

@@ -117,9 +117,14 @@
         {% comment %} Read Comments section {% endcomment %}
         <hr>
         <div class="row d-flex align-items-center justify-content-start">
-            <div class="col-xl-8">
-                {% lorem 1 b random %}
-            </div>
+            {% for comment in comments %}
+                <div class="card col-12 col-sm-8 comment">
+                    <div class="card-body">
+                        <p class="card-text"><strong>{{ comment.user }}</strong> &#183; {{ comment.pub_date }}</p>
+                        <p class="card-text">{{ comment.comment_text }}</p>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
 
     {% elif listing_status == 'closed' %}
@@ -185,6 +190,19 @@
                     </form>
                 {% endif %}
             </div>
+        </div>
+
+        {% comment %} Read Comments section {% endcomment %}
+        <hr>
+        <div class="row d-flex align-items-center justify-content-start">
+            {% for comment in comments %}
+                <div class="card col-12 col-sm-8 comment">
+                    <div class="card-body">
+                        <p class="card-text"><strong>{{ comment.user }}</strong> &#183; {{ comment.pub_date }}</p>
+                        <p class="card-text">{{ comment.comment_text }}</p>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     
     {% else %}

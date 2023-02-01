@@ -167,6 +167,10 @@ def listing_page(request, listing_id):
     # Current user in session
     current_user = request.user.pk
 
+    # get comments for current listing in certain order
+    comments = list(Comment.objects.filter(listing_obj=listing_current.id).order_by('-id'))
+    print(comments)
+
     # Render the page with tue current listing info
     return render(request, "auctions/listing_page.html", {
         'listing_current': listing_current,
@@ -177,7 +181,8 @@ def listing_page(request, listing_id):
         'owner_equal_user': owner_equal_user,
         'current_user': current_user,
         'in_watchlist': in_watchlist,
-        'nwe': nwe
+        'nwe': nwe,
+        'comments': comments
     })
 
 def close_listing(request, listing_id):
