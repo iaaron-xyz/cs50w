@@ -157,6 +157,9 @@ def listing_page(request, listing_id):
             in_watchlist = True
             break
     
+    # Get if current user is equal to owner listing page
+    owner_equal_bidder = request.user.pk == listing_current.user.id
+
     # number of watchlist elements
     nwe = len(Whatchlist.objects.filter(user=request.user.pk))
 
@@ -167,9 +170,19 @@ def listing_page(request, listing_id):
         'number_bids': number_bids,
         'current_bid': current_bid,
         'is_active': is_active,
+        'owner_equal_bidder': owner_equal_bidder,
         'in_watchlist': in_watchlist,
         'nwe': nwe
     })
+
+def close_listing(request, listing_id):
+    if request.method == "POST":
+        # Change the current listing object to closed
+        listing_current = get_object_or_404(ListingObject, pk=listing_id)
+        listing_current.status = "closed"
+        listing_current.save()
+
+        return HttpResponseRedirect(reverse('listing_page', args=(listing_id,)))
 
 @login_required(login_url='login')
 def place_bid(request, owner_id, listing_id):
