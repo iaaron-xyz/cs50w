@@ -1,0 +1,54 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h1 class="text-center section-title">
+        Category: {{ category_current }}
+    </h1>
+
+    {% if listing_objects %}
+    {% for listing in listing_objects %}
+    <div class="row d-flex align-items-center justify-content-center">
+        <div class="row listing-card col-md-8 col-12 d-flex align-items-center justify-content-center" style="margin-bottom: 20px;">
+            {% comment %} Content Card {% endcomment %}
+            <div class="col-xl-4 col-md-6 col-12 d-flex align-items-center justify-content-start">
+                <a href="{% url 'listing_page' listing.id %}">
+                    {% if listing.image_url %}
+                        <img src="{{ listing.image_url }}" class="img-fluid">
+                    {% else %}
+                        <img src="https://cdna.artstation.com/p/assets/images/images/011/722/048/large/borislav-kechashki-gopgap-post.jpg" class="img-fluid">
+                    {% endif %}
+                </a>
+            </div>
+            <div class="col-xl-8 col-md-6 col-12">
+
+                {% comment %} Title {% endcomment %}
+                <h2><a href="{% url 'listing_page' listing.id %}">{{ listing.name }}</a></h2>
+                
+                {% comment %} Description {% endcomment %}
+                <div>
+                    <p class="listing-card-info-field"><strong>Description</strong></p>
+                    <p>{{ listing.details }}</p>
+                </div>
+
+                {% comment %} User owner {% endcomment %}
+                <div>
+                    <p>By <strong>{{ listing.user }}</strong></p>
+                </div>
+
+                {% comment %} Publication date {% endcomment %}
+                <div>
+                    <p>Created: {{ listing.pub_date }}</p>
+                </div>
+
+                {% comment %} Listing category {% endcomment %}
+                <div>
+                    <p>Category: {{ listing.category }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+        No listing objects in this category yet.
+    {% endif %}
+{% endblock %}

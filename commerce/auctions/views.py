@@ -1,3 +1,5 @@
+import random
+
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
@@ -299,3 +301,38 @@ def add_comment(request, listing_id):
         comment.save()
 
         return HttpResponseRedirect(reverse('listing_page', args=(listing_id,)))
+
+def categories(request):
+    # Get a list of catogories
+    categories = list(Category.objects.all().order_by('category'))
+    # color themes
+    color_themes = [
+        ('bg-primary', 'text-white'),
+        ('bg-secondary', 'text-white'),
+        ('bg-success', 'text-white'),
+        ('bg-warning', 'text-white'),
+        ('bg-danger', 'text-white'),
+        ('bg-info', 'text-white'),
+        ('bg-light', 'text-black'),
+        ('bg-dark', 'text-white')
+    ]
+    # create a list of groups (category_name, category_color_theme)
+    category_themes = list()
+    color_counter = 0
+    for category in categories:
+        category_themes.append([category.category, color_themes[color_counter%9], category])
+        color_counter += 1
+
+    return render(request, "auctions/categories.html", {
+        'category_themes': category_themes 
+    })
+
+def listing_category(request, category_id):
+    # get listing objects with in the given category
+    listing_objects = list(ListingObject.objects.filter(category=category_id, status='active'))
+    category_current = get_object_or_404(Category, pk=category_id)
+
+    return render(request, "auctions/listing_category.html", {
+        'listing_objects': listing_objects,
+        'category_current': category_current
+    })

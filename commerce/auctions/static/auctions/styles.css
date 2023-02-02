@@ -39,6 +39,9 @@ body {
 .listing-bid form input[type="submit"] {
     margin-left: 10px;
 }
+.category-link:hover {
+    text-decoration: none;
+}
 .comment {
     background: whitesmoke;
     margin: 10px 0;
