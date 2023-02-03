@@ -187,6 +187,7 @@ def listing_page(request, listing_id):
         'comments': comments
     })
 
+@login_required(login_url='login')
 def close_listing(request, listing_id):
     if request.method == "POST":
         # Change the current listing object to closed
@@ -323,8 +324,12 @@ def categories(request):
         category_themes.append([category.category, color_themes[color_counter%9], category])
         color_counter += 1
 
+    # number of watchlist elements
+    nwe = len(Whatchlist.objects.filter(user=request.user.pk))
+
     return render(request, "auctions/categories.html", {
-        'category_themes': category_themes 
+        'category_themes': category_themes,
+        'nwe': nwe
     })
 
 def listing_category(request, category_id):
@@ -332,7 +337,11 @@ def listing_category(request, category_id):
     listing_objects = list(ListingObject.objects.filter(category=category_id, status='active'))
     category_current = get_object_or_404(Category, pk=category_id)
 
+    # number of watchlist elements
+    nwe = len(Whatchlist.objects.filter(user=request.user.pk))
+
     return render(request, "auctions/listing_category.html", {
         'listing_objects': listing_objects,
-        'category_current': category_current
+        'category_current': category_current,
+        'nwe': nwe
     })
